@@ -5,20 +5,20 @@
       $('#checkout_form_address').validate();
 
       var get_states = function(region){
-        country = $('p#' + region + 'country' + ' span#' + region + 'country :only-child').val();
+        var country = $('p#' + region + 'country' + ' span#' + region + 'country :only-child').val();
         return state_mapper[country];
       }
 
       var update_state = function(region) {
-        states = get_states(region);
+        var states = get_states(region);
 
-        state_select = $('p#' + region + 'state select');
-        state_input = $('p#' + region + 'state input');
+        var state_input = $('p#' + region + 'state input');
+        var state_select = $(window.state_select).insertAfter(state_input);
 
         if(states) {
-          selected = state_select.val();
+          var selected = state_select.val();
           state_select.html('');
-          states_with_blank = [["",""]].concat(states);
+          var states_with_blank = [["",""]].concat(states);
           $.each(states_with_blank, function(pos,id_nm) {
             var opt = $(document.createElement('option'))
                       .attr('value', id_nm[0])

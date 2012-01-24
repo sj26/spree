@@ -34,25 +34,9 @@
 
       <% if Spree::Config[:address_requires_state] %>
         <p class="field" id="bstate">
-          <% have_states = !@order.bill_address.country.states.empty? %>
-          <%= bill_form.label :state, t(:state) %><span class="req">*</span><br />
-          <noscript>
-            <%= bill_form.text_field :state_name, :class => 'required' %>
-          </noscript>
-          <% state_elements = [
-             bill_form.collection_select(:state_id, @order.bill_address.country.states,
-                                :id, :name,
-                                {:include_blank => true},
-                                {:class => have_states ? 'required' : 'hidden',
-                                :disabled => !have_states}) +
-             bill_form.text_field(:state_name,
-                                :class => !have_states ? 'required' : 'hidden',
-                                :disabled => have_states)
-             ].join.gsub('"', "'").gsub("\n", "")
-          %>
-          <%= javascript_tag do -%>
-            document.write("<%== state_elements %>");
-          <% end -%>
+          <%= bill_form.text_field(:state_name) %>
+          <%# This should probably go somewhere else, maybe in a JST? How to do i18n though... %>
+          <%= javascript_tag "window.state_select = #{bill_form.select(:state_id, :class => 'hidden').to_json}" %>
         </p>
       <% end %>
 
